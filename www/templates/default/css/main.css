@@ -1,0 +1,38 @@
+body{
+	padding: 0px;
+}
+.hideme{
+	display: none;
+}
+#header{
+	background: magenta;
+	height: 70px;
+	text-align: center;
+}
+#leftColumn{
+	background: silver;
+	width: 200px;
+	float: left;
+}
+
+#leftMenu, #loginBox, #registerBox{
+	padding-bottom: 20px;
+}
+#centerColumn{
+	background: skyblue;
+	width: 700px;
+	float: left;
+	padding-left: 90px;
+}
+
+#footer{
+	background: magenta;
+	clear: both;
+}
+.menuCaption{
+	padding: 3px;
+	font-weight: bold;
+}
+.cartBox{
+	padding: 5px 0px 5px 0px;
+}
