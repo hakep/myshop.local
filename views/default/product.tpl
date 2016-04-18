@@ -1,7 +1,7 @@
 {* страница продукта *}
 <h3>{$rsProduct['name']}</h3>
 
-<img src="/img/products/{$rsProduct['image']}" width="575">
+<img src="/img/products/{$rsProduct['image']}" width="575"><br>
 стоимость: {$rsProduct['price']} руб.
 
 <a id="removeCart_{$rsProduct['id']}" {if !$itemInCart} class="hideme" {/if} href="#" onclick="removeFromCart({$rsProduct['id']}); return false;" alt="Удалить из корзины">Удалить из корзины</a>
