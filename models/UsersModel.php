@@ -51,23 +51,37 @@ function registerNewUser($email, $pwdMD5, $name, $phone, $adress){
  * @return [type]        [рузульта]
  */
 function checkRegisterParams($email, $pwd1, $pwd2){
-
 	$res = null;
-
-	if (!$email) {
-		$res['success'] = false;
-		$res['massage'] = 'Введите email';
-	}
-
-	if (!$pwd1) {
-		$res['success'] = false;
-		$res['massage'] = 'Введите пароль';
-	}
 
 	if (!$pwd2) {
 		$res['success'] = false;
 		$res['massage'] = 'Введите повтор пароля';
 	}
+	if (!$pwd1) {
+		$res['success'] = false;
+		$res['massage'] = 'Введите пароль';
+	}
+	if (!$email) {
+		$res['success'] = false;
+		$res['massage'] = 'Введите email';
+	}
 
-return $res;
+	return $res;
+}
+
+
+/**
+ * [проверка почты (есть ли email в БД)]
+ * @param  [type] $email [description]
+ * @return [type]        [строка из таблицы users, либо пустой массив]
+ */
+function checkUserEmail($email){
+	global $mysqli;
+
+	$email = $mysqli->real_escape_string($email);
+	$sql = "SELECT `id` FROM `users` WHERE `email` = '{$email}'";
+	$rs = $mysqli->query($sql);
+	$rs = createSmartyRsArray($rs);
+
+	return $rs;
 }
