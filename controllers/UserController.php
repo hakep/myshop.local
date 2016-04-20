@@ -31,7 +31,7 @@ function registerAction(){
 	$resData = null;
 	// если все введено, то $resData равна null, иначе описание ошибки
 	$resData = checkRegisterParams($email, $pwd1, $pwd2);
-		
+
 	// если все данные введены, но такой пользователь уже есть в базе, то ошибка
 	if (!$resData && checkUserEmail($email)) {
 		$resData['success'] = false;
@@ -45,7 +45,7 @@ function registerAction(){
 
 		if ($userData['success']) {
 			$resData['message'] = 'Пользователь успешно зарегистрирован';
-			$resData['success'] = 1;
+			$resData['success'] = true;
 
 			$userData = $userData[0];
 			$resData['userName'] = $userData['name'] ? $userData['name'] : $userData['email'];
@@ -54,9 +54,23 @@ function registerAction(){
 			$_SESSION['user'] = $userData;
 			$_SESSION['user']['displayName'] = $userData['name'] ? $userData['name'] : $userData['email'];
 		} else {
-			$resData['success'] = 0;
+			$resData['success'] = false;
 			$resData['message'] = 'Ошибка регистрации';
 		}
 	}
 	echo json_encode($resData);
+}
+
+
+/**
+ * [разлогинивание пользователя]
+ * @return [type] [description]
+ */
+function logoutAction(){
+	if (isset($_SESSION['user'])) {
+		unset($_SESSION['user']);
+		unset($_SESSION['cart']);
+	}
+
+	redirect();
 }

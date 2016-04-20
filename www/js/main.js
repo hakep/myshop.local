@@ -91,12 +91,11 @@ function registerNewUser(){
 		success: function(data){
 			// alert(JSON.stringify(data));
 			if (data['success']) {
-				alert('Регистрация прошла успешно');
+				alert(data['message']);
 
 				// > блок в левом столбце
 				$('#registerBox').hide();
 
-				$('#userLink').attr('href', '/user/');
 				$('#userLink').html(data['userName']);
 				$('#userBox').show();
 				// <
@@ -114,7 +113,7 @@ function registerNewUser(){
 }
 
 
-
+// показ объекта в js
 function d(obj) { 
     var str = ""; 
     for(k in obj) { 

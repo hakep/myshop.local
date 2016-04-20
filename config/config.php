@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 // файл настроек
 $start = microtime(true);
 error_reporting(-1);

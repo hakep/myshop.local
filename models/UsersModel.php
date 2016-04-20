@@ -31,12 +31,12 @@ function registerNewUser($email, $pwdMD5, $name, $phone, $adress){
 		$rs = createSmartyRsArray($rs);
 
 		if (isset($rs[0])) {
-			$rs['success'] = 1;
+			$rs['success'] = true;
 		} else {
-			$rs['success'] = 0;
+			$rs['success'] = false;
 		}
 	} else {
-		$rs['success'] = 0;
+		$rs['success'] = false;
 	}
 
 	return $rs;
@@ -53,17 +53,21 @@ function registerNewUser($email, $pwdMD5, $name, $phone, $adress){
 function checkRegisterParams($email, $pwd1, $pwd2){
 	$res = null;
 
+	if ($pwd1 !== $pwd2) {
+		$res['success'] = false;
+		$res['message'] = 'Пароли не совпадают';
+	}
 	if (!$pwd2) {
 		$res['success'] = false;
-		$res['massage'] = 'Введите повтор пароля';
+		$res['message'] = 'Введите повтор пароля';
 	}
 	if (!$pwd1) {
 		$res['success'] = false;
-		$res['massage'] = 'Введите пароль';
+		$res['message'] = 'Введите пароль';
 	}
 	if (!$email) {
 		$res['success'] = false;
-		$res['massage'] = 'Введите email';
+		$res['message'] = 'Введите email';
 	}
 
 	return $res;
