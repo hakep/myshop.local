@@ -71,6 +71,34 @@ function logoutAction(){
 		unset($_SESSION['user']);
 		unset($_SESSION['cart']);
 	}
-
 	redirect();
+}
+
+
+/**
+ * [AJAX авторизация пользователя]
+ * @return [json] [массив данных пользователя]
+ */
+function loginAction(){
+	$email = isset($_REQUEST['loginEmail']) ? $_REQUEST['loginEmail'] : null;
+	$email = trim($email);
+	$pwd = isset($_REQUEST['loginPwd']) ? $_REQUEST['loginPwd'] : null;
+	$pwd = trim($pwd);
+
+	$userData = loginUser($email, $pwd);
+
+	if ($userData['success']) {
+		$userData = $userData[0];
+
+		$_SESSION['user'] = $userData;
+		$_SESSION['user']['displayName'] = $userData['name'] ? $userData['name'] : $userData['email'];
+
+		$resData = $_SESSION['user'];
+		$resData['success'] = true;
+	} else {
+		$resData['success'] = false;
+		$resData['message'] = 'Неверный логин или пароль';
+	}
+
+	echo json_encode($resData);
 }

@@ -1,3 +1,14 @@
+
+
+// показ объекта в js
+function d(obj) { 
+    var str = ""; 
+    for(k in obj) { 
+        str += k+": "+ obj[k]+"\r\n"; 
+    } 
+    alert(str); 
+} 
+
 /**
  * [функция добавления товара в корзину]
  * @param {[type]} itemId [ID продукта]
@@ -113,11 +124,21 @@ function registerNewUser(){
 }
 
 
-// показ объекта в js
-function d(obj) { 
-    var str = ""; 
-    for(k in obj) { 
-        str += k+": "+ obj[k]+"\r\n"; 
-    } 
-    alert(str); 
-} 
+
+function login(){
+
+	var postData = getData('#loginBox');
+
+	$.ajax({
+		type: 'POST',
+		async: true,
+		url: "/user/login/",
+		data: postData,
+		dataType: 'json',
+		success: function(data){
+			alert(JSON.stringify(data));
+
+		}
+	});
+
+}
