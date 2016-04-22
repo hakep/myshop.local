@@ -124,7 +124,10 @@ function registerNewUser(){
 }
 
 
-
+/**
+ * [авторизация пользователя]
+ * @return {[type]} [description]
+ */
 function login(){
 
 	var postData = getData('#loginBox');
@@ -136,9 +139,25 @@ function login(){
 		data: postData,
 		dataType: 'json',
 		success: function(data){
-			alert(JSON.stringify(data));
+			if (data['success']) {
+				$('#loginBox').hide();
+				$('#registerBox').hide();
 
+				$('#userLink').html(data['displayName']);
+				$('#userBox').show();
+			} else {
+				alert(data['message']);
+			}
 		}
 	});
 
+}
+
+
+/**
+ * [показывать или прятать форму регистрации]
+ * @return {[type]} [description]
+ */
+function showRegisterBox(){
+	$('#registerBoxHidden').toggle("slow");
 }
