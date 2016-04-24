@@ -33,7 +33,7 @@ function indexAction($smarty){
 		$rsProducts = getProductsByCat($catId);
 	}
 
-	// получение всех категорий с дочерними категориями
+	// получение всех категорий с дочерними категориями для меню
 	$rsCategories = getAllMainCatsWithChildren();
 
 	$smarty->assign('pageTitle', 'Товары категории ' . $rsCategory['name']);

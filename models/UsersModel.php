@@ -116,3 +116,43 @@ function loginUser($email, $pwd){
 
 	return $rs;
 }
+
+
+
+/**
+ * [изменение данных пользователя]
+ * @param  [type] $name   [имя пользователя]
+ * @param  [type] $phone  [телефон пользователя]
+ * @param  [type] $adress [адрес пользователя]
+ * @param  [type] $pwd1   [новый пароль]
+ * @param  [type] $pwd2   [повтор нового пароля]
+ * @param  [type] $curPwd [текущий пароль]
+ * @return [type]         [TRUE в случае успеха]
+ */
+function updateUserData($name, $phone, $adress, $pwd1, $pwd2, $curPwd){
+	global $mysqli;
+
+	$email = htmlspecialchars($mysqli->real_escape_string($_SESSION['user']['email']));
+	$name = htmlspecialchars($mysqli->real_escape_string($name));
+	$phone = htmlspecialchars($mysqli->real_escape_string($phone));
+	$adress = htmlspecialchars($mysqli->real_escape_string($adress));
+	$pwd1 = trim($pwd1);
+	$pwd2 = trim($pwd2);
+
+	$newPwd = null;
+	if($pwd1 && ($pwd1 == $pwd2)){
+		$newPwd = md5($pwd1);
+	}
+
+	$sql = "1UPDATE users SET ";
+
+	if ($newPwd) {
+		$sql .= "`pwd` = '{$newPwd}', ";
+	}
+
+	$sql .= "`name` = '{$name}', `phone` = '{$phone}', `adress` = '{$adress}' WHERE `email` = '{$email}' AND `pwd` = '{$curPwd}' LIMIT 1";
+
+	$rs = $mysqli->query($sql);
+
+	return $rs;
+}

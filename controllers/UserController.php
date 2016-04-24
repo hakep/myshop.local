@@ -102,3 +102,30 @@ function loginAction(){
 
 	echo json_encode($resData);
 }
+
+
+
+/**
+ * [формирование главной страницы пользователя (/user/)]
+ * @param  [type] $smarty [шаблонизатор]
+ * @return [type]         [description]
+ */
+function indexAction($smarty){
+// d($_SESSION);
+	// если пользователь не залогинен, то редирект на главную страницу
+	if (!isset($_SESSION['user'])) {
+		redirect();
+	}
+
+	// получение всех категорий с дочерними категориями для меню
+	$rsCategories = getAllMainCatsWithChildren();
+
+	$smarty->assign('pageTitle', 'Страница пользователя');
+	$smarty->assign('rsCategories', $rsCategories);
+
+	loadTemplate($smarty, 'header');
+	loadTemplate($smarty, 'user');
+	loadTemplate($smarty, 'footer');
+
+	d($smarty->getTemplateVars());
+}
