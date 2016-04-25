@@ -99,7 +99,9 @@ function loginAction(){
 		$resData['success'] = false;
 		$resData['message'] = 'Неверный логин или пароль';
 	}
-
+// 	d($userData,0);
+// 	d($resData,0);
+// d($_SESSION,0);
 	echo json_encode($resData);
 }
 
@@ -111,7 +113,7 @@ function loginAction(){
  * @return [type]         [description]
  */
 function indexAction($smarty){
-// d($_SESSION);
+
 	// если пользователь не залогинен, то редирект на главную страницу
 	if (!isset($_SESSION['user'])) {
 		redirect();
@@ -137,15 +139,10 @@ function indexAction($smarty){
  */
 function updateAction(){
 
-
-
 	// если пользователя не залогинен, то выходим
 	if (!isset($_SESSION['user'])) {
 		redirect();
 	}
-
-
-
 
 	// инициализация переменных
 	$resData = array();
@@ -153,12 +150,9 @@ function updateAction(){
 	$phone = isset($_POST['newPhone']) ? htmlspecialchars($_POST['newPhone']) : null;
 	$adress = isset($_POST['newAdress']) ? htmlspecialchars($_POST['newAdress']) : null;
 	$name = isset($_POST['newName']) ? htmlspecialchars($_POST['newName']) : null;
-	$pwd1 = isset($_POST['newPwd1']) ? $_POST['newPwd1'] : null;
-	$pwd2 = isset($_POST['newPwd2']) ? $_POST['newPwd2'] : null;
-	$curPwd = isset($_POST['curPwd']) ? $_POST['curPwd'] : null;
-
-
-
+	$pwd1 = isset($_POST['newPwd1']) ? trim($_POST['newPwd1']) : null;
+	$pwd2 = isset($_POST['newPwd2']) ? trim($_POST['newPwd2']) : null;
+	$curPwd = isset($_POST['curPwd']) ? trim($_POST['curPwd']) : null;
 
 	// проверка правильности пароля (введенный и тот под которым залогинились
 	$curPwdMD5 = md5($curPwd);
@@ -169,32 +163,25 @@ function updateAction(){
 		return false;
 	}
 
-
-// d($_POST,0);
-
-
 	// обновление данных пользователя
 	$res = updateUserData($name, $phone, $adress, $pwd1, $pwd2, $curPwdMD5);
 
-
-
-d($_SESSION,0);
 	if ($res) {
 		$resData['success'] = true;
 		$resData['message'] = 'Данные сохранены';
-		$resData['userName'] = $name;
+		$resData['displayName'] = $name ? $name : $_SESSION['user']['email'];
 
 		$_SESSION['user']['name'] = $name;
 		$_SESSION['user']['phone'] = $phone;
 		$_SESSION['user']['adress'] = $adress;
-		$_SESSION['user']['pwd'] = $curPwdMD5;
-		$_SESSION['user']['displayName'] = $name ? $name : $_SESSION['user']['email'];
+		if ($pwd1 && ($pwd1 === $pwd2)) {
+			$_SESSION['user']['pwd'] = md5($pwd1);
+		} 
+		$_SESSION['user']['displayName'] = $resData['displayName'];
 	} else {
 		$resData['success'] = false;
 		$resData['message'] = 'Ошибка сохранения данных';
 	}
-	d($_SESSION,0);
-	d($curPwdMD5,0);
-	d($resData,1);
+
 	echo json_encode($resData);
 }

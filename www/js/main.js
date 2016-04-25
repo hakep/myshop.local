@@ -107,7 +107,7 @@ function registerNewUser(){
 				// > блок в левом столбце
 				$('#registerBox').hide();
 
-				$('#userLink').html(data['userName']);
+				$('#displayName').html(data['userName']);
 				$('#userBox').show();
 				// <
 				
@@ -143,7 +143,7 @@ function login(){
 				$('#loginBox').hide();
 				$('#registerBox').hide();
 
-				$('#userLink').html(data['displayName']);
+				$('#displayName').html(data['displayName']);
 				$('#userBox').show();
 			} else {
 				alert(data['message']);
@@ -164,9 +164,8 @@ function showRegisterBox(){
 
 
 function updateUserData(){
-console.log("js - updateUserData()");
+	// console.log("js - updateUserData()");
 	var postData = getData('#updateUserData');
-// d(postData);
 
 	$.ajax({
 		type: 'POST',
@@ -176,6 +175,7 @@ console.log("js - updateUserData()");
 		dataType: 'json',
 		success: function(data){
 			if (data['success']) {
+				$('#displayName').html(data['displayName']);
 				alert(data['message']);
 			} else {
 				alert(data['message']);
