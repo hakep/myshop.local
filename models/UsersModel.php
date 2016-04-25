@@ -133,9 +133,9 @@ function updateUserData($name, $phone, $adress, $pwd1, $pwd2, $curPwd){
 	global $mysqli;
 
 	$email = htmlspecialchars($mysqli->real_escape_string($_SESSION['user']['email']));
-	$name = htmlspecialchars($mysqli->real_escape_string($name));
-	$phone = htmlspecialchars($mysqli->real_escape_string($phone));
-	$adress = htmlspecialchars($mysqli->real_escape_string($adress));
+	$name = $mysqli->real_escape_string($name);
+	$phone = $mysqli->real_escape_string($phone);
+	$adress = $mysqli->real_escape_string($adress);
 	$pwd1 = trim($pwd1);
 	$pwd2 = trim($pwd2);
 
@@ -144,7 +144,7 @@ function updateUserData($name, $phone, $adress, $pwd1, $pwd2, $curPwd){
 		$newPwd = md5($pwd1);
 	}
 
-	$sql = "1UPDATE users SET ";
+	$sql = "UPDATE users SET ";
 
 	if ($newPwd) {
 		$sql .= "`pwd` = '{$newPwd}', ";

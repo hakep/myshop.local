@@ -161,3 +161,26 @@ function login(){
 function showRegisterBox(){
 	$('#registerBoxHidden').toggle("slow");
 }
+
+
+function updateUserData(){
+console.log("js - updateUserData()");
+	var postData = getData('#updateUserData');
+// d(postData);
+
+	$.ajax({
+		type: 'POST',
+		async: true,
+		url: "/user/update/",
+		data: postData,
+		dataType: 'json',
+		success: function(data){
+			if (data['success']) {
+				alert(data['message']);
+			} else {
+				alert(data['message']);
+			}
+		}
+	});
+
+}
