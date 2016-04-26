@@ -83,3 +83,27 @@ function removefromcartAction () {
 
 	echo json_encode($resData);
 }
+
+
+/**
+ * [формирование страницы заказа]
+ * @return [type] [description]
+ */
+function orderAction($smarty){
+
+	// получаем массив идентификаторов (ID) продуктов корзины
+	$itemsIds = isset($_SESSION['cart']) ? $_SESSION['cart'] : null;
+
+	// если корзина пуста, то редиректим в корзину
+	if (!$itemsIds) {
+		redirect('/cart/');
+		return;
+	}
+
+
+
+
+	d($_POST,0);
+	d($_SESSION);
+
+}
