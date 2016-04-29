@@ -149,7 +149,7 @@ function orderAction($smarty){
 		$smarty->assign('hideLoginBox', 1);
 	}
 
-	$smarty->assign('pageTitle', 'Заказ');
+	$smarty->assign('pageTitle', 'Данные заказа');
 	$smarty->assign('rsCategories', $rsCategories);
 	$smarty->assign('rsProducts', $rsProducts);
 	
