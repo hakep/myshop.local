@@ -8,7 +8,8 @@
 // подключаем модели
 include_once '../models/CategoriesModel.php';
 include_once '../models/ProductsModel.php';
-
+include_once '../models/OrdersModel.php';
+include_once '../models/PurchaseModel.php';
 
 /**
  * [формирование страницы корзины (/cart/)]
@@ -156,4 +157,57 @@ function orderAction($smarty){
 	loadTemplate($smarty, 'header');
 	loadTemplate($smarty, 'order');
 	loadTemplate($smarty, 'footer');
+}
+
+
+
+/**
+ * [AJAX фунция сохранение заказа]
+ * $_SESSION['saleCart'] массив покупаемых продуктов
+ * @return [type] [информация о результате выполнения]
+ */
+function saveorderAction(){
+
+	// получаем массив покупаемых товаров
+	$cart = isset($_SESSION['saleCart']) ? $_SESSION['saleCart'] : null;
+	// если корзина пуста, то формируем ответ с ошибкой, отдаем его в формате json и выходим из функции
+	if (!$cart) {
+		$resData['success'] = false;
+		$resData['message'] = "Нет товаров для заказа";
+		echo json_encode($resData);
+		return;
+	}
+
+	$phone = isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : null;
+	$adress = isset($_POST['adress']) ? htmlspecialchars($_POST['adress']) : null;
+	$name = isset($_POST['name']) ? htmlspecialchars($_POST['name']) : null;
+	
+
+	// создаем новый заказ и получаем его ID
+	$orderId = makeNewOrder($name, $phone, $adress);
+
+	// если заказ не создан, то выдаем ошибку и завершаем функцию
+	if (!$orderId) {
+		$resData['success'] = false;
+		$resData['message'] = 'Ошибка создания заказа';
+		echo json_encode($resData);
+		return;
+	}
+
+	// сохраняем товары для созданного заказа
+	$res = setPurchaseForOrder($orderId, $cart);
+
+	if ($res) {
+		$resData['success'] = true;
+		$resData['message'] = 'Заказ сохранен';
+		unset($_SESSION['saleCart']);
+		unset($_SESSION['cart']);	
+	} else {
+		$resData['success'] = false;
+		$resData['message'] = 'Ошибка внесения лданных для заказа № ' . $orderId;
+	}
+
+d($_SESSION);
+
+	echo json_encode($resData);
 }

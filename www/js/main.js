@@ -156,7 +156,6 @@ function login(){
 			}
 		}
 	});
-
 }
 
 
@@ -169,6 +168,10 @@ function showRegisterBox(){
 }
 
 
+/**
+ * [обновляет данные пользователя]
+ * @return {[type]} [description]
+ */
 function updateUserData(){
 	// console.log("js - updateUserData()");
 	var postData = getData('#updateUserData');
@@ -188,5 +191,29 @@ function updateUserData(){
 			}
 		}
 	});
+}
 
+
+/**
+ * [сохраняет данные заказа]
+ * @return {[type]} [description]
+ */
+function saveorder(){
+	var postData = getData('#frmOrder');
+// d(postData);
+	$.ajax({
+		type: 'POST',
+		async: true,
+		url: "/cart/saveorder/",
+		data: postData,
+		dataType: 'json',
+		success: function(data){
+			if (data['success']) {
+				alert(data['message']);
+				document.location = "/";
+			} else {
+				alert(data['message']);
+			}
+		}
+	});
 }
