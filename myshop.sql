@@ -1,5 +1,4 @@
-new_f
-master
+выпуп
 -- phpMyAdmin SQL Dump
 -- version 4.0.10.10
 -- http://www.phpmyadmin.net
